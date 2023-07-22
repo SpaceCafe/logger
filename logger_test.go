@@ -84,7 +84,7 @@ func TestLogger_Print(t *testing.T) {
 			var buf3 bytes.Buffer
 
 			logger := NewLogger()
-			osExit = func(code int) { return }
+			osExit = func(code int) {}
 			logger.loggerList[LevelDebug].SetOutput(&buf0)
 			logger.loggerList[LevelDebug].SetFlags(0)
 			logger.loggerList[LevelInfo].SetOutput(&buf1)
@@ -140,12 +140,11 @@ func (b *mockBuf) Write(p []byte) (n int, err error) {
 }
 
 func TestLogger_logWithLevelErr(t *testing.T) {
-	buf := make(mockBuf, 0, 0)
+	buf := make(mockBuf, 0)
 	logger := NewLogger()
 	logger.loggerList[LevelDebug].SetOutput(&buf)
 	logger.loggerList[LevelDebug].SetFlags(0)
 
 	logger.logWithLevel(LevelDebug, nil, "test")
 	assert.Equal(t, 0, len(buf), "expected logger to not write to stdout")
-
 }
